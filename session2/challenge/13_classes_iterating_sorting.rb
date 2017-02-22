@@ -64,3 +64,52 @@
 # date docs are at: http://ruby-doc.org/core/classes/Date.html
 # don't spend too much time worrying about them :)
 require 'date'
+
+class User
+  attr_accessor :username, :blogs
+
+  def initialize(username)
+    @username = username
+    @blogs = []
+  end
+
+  # it should have a method add_blog which accepts a date and text
+  def add_blog(date, text)
+    added_blog = Blog.new(date, @username, text)
+    blogs.push(added_blog) # same as blogs << added_blog
+    @blogs = blogs.sort_by { |blog| blog.date }.reverse
+    added_blog
+  end
+
+  # it should have a method blogs which returns an array of all blogs the user has written
+  # they should be in reverse chronological order (newest first)
+end
+
+
+# Define a class called Blog that could be used to store an entry for your web log.
+class Blog
+  attr_accessor :text, :date, :user
+  # its initialize method should receive the date, user , and text
+  def initialize(date, user, text)
+    @date = date
+    @user = user
+    @text = text
+  end
+
+  # have a method called summary that returns the first 10 words from the text (or the entire text if it is less than 10 words)
+  def summary
+    text.split[0..9].join(' ')
+  end
+
+  def entry
+    "#{user.username} #{date}\n#{text}"
+  end
+
+  # Two blogs should be equal to eachother if they have the same user, date, and text
+  def ==(other)
+    date == other.date &&
+      user == other.user &&
+      text == other.text
+  end
+
+end
