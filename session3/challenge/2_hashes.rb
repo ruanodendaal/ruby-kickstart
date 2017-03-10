@@ -8,3 +8,15 @@
 # staircase 4  # => {1 => [], 3 => [2]}
 # staircase 5  # => {1 => [], 3 => [2], 5 =>[2, 4]}
 
+def staircase(n)
+  return_this = Hash.new(0)
+
+  1.upto n do |value|
+    if value.odd?
+      all_values = Array.new(value) { |i| i + 1 }
+      evens = all_values.select { |i| i.even? }
+      return_this[value] = evens
+    end
+  end
+  return_this
+end
